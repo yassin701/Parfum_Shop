@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 
 // DELETE PRODUCT
 export async function DELETE(req, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const { error } = await supabase
@@ -24,7 +24,7 @@ export async function DELETE(req, { params }) {
 
 // UPDATE PRODUCT
 export async function PUT(req, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const body = await req.json();
