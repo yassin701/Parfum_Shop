@@ -2,14 +2,32 @@ import { supabase } from "@/lib/supabase";
 
 
 // GET PRODUCTS
-export async function GET() {
-
+export async function GET(req) {
   try {
+    const { searchParams } = new URL(req.url);
+    const gender = searchParams.get("gender");
+    const sort = searchParams.get("sort");
 
-    const { data, error } = await supabase
+    let query = supabase
       .from("products")
-      .select("*")
-      .order("id", { ascending: false });
+      .select("*");
+
+    // Apply gender filter if provided
+    if (gender && gender !== "all") {
+      query = query.ilike("gender", gender);
+    }
+
+    // Apply sorting logic
+    if (sort === "price-asc") {
+      query = query.order("price", { ascending: true });
+    } else if (sort === "price-desc") {
+      query = query.order("price", { ascending: false });
+    } else {
+      // Default to Newest
+      query = query.order("created_at", { ascending: false });
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       return Response.json(
@@ -19,9 +37,7 @@ export async function GET() {
     }
 
     return Response.json(data);
-
   } catch (err) {
-
     return Response.json(
       { error: err.message },
       { status: 500 }

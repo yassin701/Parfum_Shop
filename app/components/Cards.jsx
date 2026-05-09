@@ -33,7 +33,7 @@ export default function ProductCard({
           {product.name}
         </h2>
         
-        {isAdmin && (
+        {isAdmin ? (
           <div className="grid grid-cols-2 gap-3 mt-6">
             <button
               onClick={() => onEdit(product)}
@@ -54,6 +54,15 @@ export default function ProductCard({
               Delete
             </button>
           </div>
+        ) : (
+          <button className="w-full mt-6 flex items-center justify-center gap-3 px-6 py-3 bg-zinc-950 text-white text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all hover:bg-zinc-800 hover:shadow-lg active:scale-[0.98]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+              <path d="M3 6h18" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+            Add to Bag
+          </button>
         )}
       </div>
     </div>
