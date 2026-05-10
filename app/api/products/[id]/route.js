@@ -28,7 +28,14 @@ export async function PUT(req, { params }) {
 
   try {
     const body = await req.json();
-    const { name, price, gender, image_url } = body;
+    const { 
+      name, 
+      price, 
+      gender, 
+      product_type, 
+      category_slug, 
+      image_url 
+    } = body;
 
     const { data, error } = await supabase
       .from("products")
@@ -36,6 +43,8 @@ export async function PUT(req, { params }) {
         name,
         price,
         gender,
+        product_type,
+        category_slug,
         image_url,
       })
       .eq("id", id)

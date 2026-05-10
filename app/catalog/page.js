@@ -11,14 +11,14 @@ export default function CatalogPage() {
       subtitle: "Pour Homme",
       description: "Experience the intensity of wood, leather, and deep noir essences.",
       image: "/categories/men.png",
-      href: "/products/men",
+      href: "/catalog/men",
     },
     {
       title: "Women Perfumes",
       subtitle: "Pour Femme",
       description: "A symphony of floral notes, elegant glass, and ethereal lightness.",
       image: "/categories/women.png",
-      href: "/products/women",
+      href: "/catalog/women",
     },
   ];
 
