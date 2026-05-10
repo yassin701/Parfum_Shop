@@ -10,6 +10,7 @@ export default function ProductListPage({ params }) {
     const { gender, type } = use(params);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -25,35 +26,60 @@ export default function ProductListPage({ params }) {
         fetchProducts();
     }, [gender, type]);
 
+    const filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const title = `${gender === 'men' ? "Men's" : "Women's"} ${type === 'deconte' ? 'Déconté' : 'Complete'} Collection`;
 
     return (
         <div className="min-h-screen bg-zinc-50 selection:bg-zinc-950 selection:text-white">
             <UserNavbar />
             
-            <main className="max-w-7xl mx-auto px-6 py-24">
+            <main className="max-w-7xl mx-auto px-6 pt-32 pb-24">
                 {/* COLLECTION HEADER */}
-                <header className="mb-16">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-4 mb-4"
+                <header className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                    <div>
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="flex items-center gap-4 mb-4"
+                        >
+                            <div className="h-[1px] w-8 md:w-12 bg-zinc-300" />
+                            <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-zinc-400 font-black">
+                                Catalog / {gender} / {type}
+                            </span>
+                        </motion.div>
+                        
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-4xl md:text-7xl font-serif italic text-zinc-900 leading-tight"
+                        >
+                            {gender === 'men' ? "Men's" : "Women's"} <br />
+                            <span className="text-zinc-300 font-light not-italic">{type === 'deconte' ? 'Déconté' : 'Complete'}</span> Collection
+                        </motion.h1>
+                    </div>
+
+                    {/* SEARCH BOX */}
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="relative group w-full md:w-80"
                     >
-                        <div className="h-[1px] w-12 bg-zinc-300" />
-                        <span className="text-xs uppercase tracking-[0.5em] text-zinc-400 font-black">
-                            Catalog / {gender} / {type}
-                        </span>
+                        <input 
+                            type="text"
+                            placeholder="Search masterpiece..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full bg-white border border-zinc-200 rounded-2xl py-4 px-6 pl-14 text-sm outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all shadow-sm group-hover:shadow-md"
+                        />
+                        <svg className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-zinc-950 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </motion.div>
-                    
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-7xl font-serif italic text-zinc-900 leading-tight"
-                    >
-                        {gender === 'men' ? "Men's" : "Women's"} <br />
-                        <span className="text-zinc-300 font-light not-italic">{type === 'deconte' ? 'Déconté' : 'Complete'}</span> Collection
-                    </motion.h1>
                 </header>
 
                 {/* PRODUCT GRID */}
@@ -66,13 +92,13 @@ export default function ProductListPage({ params }) {
                         </div>
                     ) : (
                         <AnimatePresence>
-                            {products.length > 0 ? (
+                            {filteredProducts.length > 0 ? (
                                 <motion.div 
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
                                 >
-                                    {products.map((product, idx) => (
+                                    {filteredProducts.map((product, idx) => (
                                         <motion.div
                                             key={product.id}
                                             initial={{ opacity: 0, y: 20 }}

@@ -14,6 +14,8 @@ export default function AdminLayout({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const isLoginPage = pathname === "/Admin/Login";
 
   useEffect(() => {
@@ -72,6 +74,15 @@ export default function AdminLayout({ children }) {
         </svg>
       ),
     },
+    {
+      name: "Orders",
+      path: "/Admin/Orders",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.119-1.243l1.263-12c.056-.53.505-.933 1.037-.933h12.164c.532 0 .981.403 1.037.933Z" />
+        </svg>
+      ),
+    },
   ];
 
   if (loading) {
@@ -91,23 +102,56 @@ export default function AdminLayout({ children }) {
   return (
     <div className="flex min-h-screen bg-white text-zinc-900 font-sans selection:bg-gold-gradient selection:text-black">
       
+      {/* MOBILE HEADER */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-20 bg-zinc-950 flex items-center justify-between px-6 z-[100] border-b border-zinc-900">
+        <h1 className="text-sm font-bold text-white tracking-widest uppercase">
+          Arabi <span className="text-zinc-500 font-light">Shop</span>
+        </h1>
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="w-10 h-10 flex items-center justify-center text-zinc-400"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d={isMobileMenuOpen ? "M18 6 6 18M6 6l12 12" : "M3 12h18M3 6h18M3 18h18"} />
+          </svg>
+        </button>
+      </div>
+
+      {/* SIDEBAR OVERLAY (MOBILE) */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[140] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* SIDEBAR */}
-      <aside className="w-64 bg-zinc-950 text-zinc-400 flex flex-col fixed h-full border-r border-zinc-800 shadow-2xl z-50">
+      <aside className={`
+        fixed h-full bg-zinc-950 text-zinc-400 flex flex-col border-r border-zinc-800 shadow-2xl z-[150] transition-all duration-500
+        w-64 lg:left-0
+        ${isMobileMenuOpen ? "left-0" : "-left-64"}
+      `}>
         {/* LOGO AREA */}
-        <div className="p-8">
+        <div className="p-8 hidden lg:block">
           <h1 className="text-xl font-bold text-white tracking-widest uppercase">
             Arabi <span className="text-zinc-500 font-light">Shop</span>
           </h1>
           <p className="text-[9px] text-zinc-600 mt-2 uppercase tracking-[0.4em] font-bold">Workspace Alpha</p>
         </div>
 
-        <nav className="flex-1 px-6 space-y-3">
+        <nav className="flex-1 px-6 space-y-3 pt-24 lg:pt-0">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
               <Link
                 key={item.path}
                 href={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-4 px-5 py-4 rounded-sm transition-all duration-500 group ${
                   isActive ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-200"
                 }`}
@@ -124,7 +168,7 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        {/* PROFILE TRIGGER (OPTION 2) */}
+        {/* PROFILE TRIGGER */}
         <div className="p-8 border-t border-zinc-900 relative">
           <button 
             onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -170,8 +214,8 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 ml-64 bg-white min-h-screen">
-        <div className="p-12 max-w-7xl mx-auto">
+      <main className="flex-1 lg:ml-64 bg-white min-h-screen pt-20 lg:pt-0">
+        <div className="p-6 md:p-12 max-w-7xl mx-auto">
           {children}
         </div>
       </main>

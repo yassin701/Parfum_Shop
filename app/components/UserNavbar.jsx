@@ -22,17 +22,19 @@ export default function UserNavbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${isScrolled ? "bg-white/80 backdrop-blur-2xl py-4 shadow-2xl border-b border-black/5" : "bg-transparent py-8"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-[200] h-20 md:h-24 flex items-center transition-all duration-500 ${
+        isScrolled || isMobileMenuOpen
+          ? "bg-white/80 backdrop-blur-2xl shadow-2xl border-b border-black/5 text-black" 
+          : "bg-transparent text-black"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center text-black">
+      <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
         {/* LOGO */}
         <Link href="/" className="group flex flex-col items-center">
-          <span className="text-2xl font-serif tracking-[0.3em] font-light group-hover:tracking-[0.4em] transition-all duration-500">
+          <span className="text-xl md:text-2xl font-serif tracking-[0.3em] font-light group-hover:tracking-[0.4em] transition-all duration-500">
             ARABI SHOP
           </span>
-          <span className={`text-[9px] uppercase tracking-[0.6em] -mt-1 transition-colors ${isScrolled ? "text-gray-500" : "text-white/40"
-            }`}>
+          <span className="text-[8px] md:text-[9px] uppercase tracking-[0.6em] -mt-1 transition-colors opacity-60">
             Maison de Parfum
           </span>
         </Link>
@@ -44,7 +46,7 @@ export default function UserNavbar() {
             className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all relative group"
           >
             Collections
-            <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full ${isScrolled ? "bg-black" : "bg-white"}`} />
+            <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full bg-black`} />
           </Link>
 
           {/* MEN DROPDOWN */}
@@ -59,7 +61,7 @@ export default function UserNavbar() {
               </svg>
             </Link>
             <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-500 transform translate-y-2 group-hover/menu:translate-y-0">
-              <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4">
+              <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4 text-black">
                 <Link href="/catalog/men/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Parfum Complet</Link>
                 <Link href="/catalog/men/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Déconté Parfum</Link>
               </div>
@@ -78,7 +80,7 @@ export default function UserNavbar() {
               </svg>
             </Link>
             <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-500 transform translate-y-2 group-hover/menu:translate-y-0">
-              <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4">
+              <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4 text-black">
                 <Link href="/catalog/women/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Parfum Complet</Link>
                 <Link href="/catalog/women/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Déconté Parfum</Link>
               </div>
@@ -90,13 +92,13 @@ export default function UserNavbar() {
             className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all relative group"
           >
             Contact
-            <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full ${isScrolled ? "bg-black" : "bg-white"}`} />
+            <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full bg-black`} />
           </Link>
         </nav>
 
         {/* ICONS */}
-        <div className="flex items-center gap-8">
-          <button className="hover:scale-110 transition-transform duration-300">
+        <div className="flex items-center gap-4 md:gap-8">
+          <button className="hover:scale-110 transition-transform duration-300 hidden sm:block">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
@@ -119,15 +121,14 @@ export default function UserNavbar() {
               <path d="M3 6h18" />
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
-            <span className={`absolute -top-2 -right-2 text-[8px] w-4 h-4 flex items-center justify-center rounded-full transition-colors ${isScrolled ? "bg-black text-white" : "bg-white text-black"
-              }`}>
+            <span className={`absolute -top-2 -right-2 text-[8px] w-4 h-4 flex items-center justify-center rounded-full bg-black text-white`}>
               {totalQuantity}
             </span>
           </button>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden hover:rotate-90 transition-transform duration-500"
+            className="md:hidden hover:rotate-90 transition-transform duration-500 p-2"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
               <path d={isMobileMenuOpen ? "M18 6 6 18M6 6l12 12" : "M3 12h18M3 6h18M3 18h18"} />
@@ -144,44 +145,48 @@ export default function UserNavbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[70] bg-black text-white flex flex-col p-12 justify-center"
+            className="fixed inset-0 z-[250] h-[100dvh] bg-white text-black flex flex-col p-8 pt-12 justify-start overflow-y-auto"
           >
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-12 right-12 text-white/40 hover:text-white transition-colors"
-            >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                <path d="M18 6 6 18M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div className="flex flex-col gap-6 overflow-y-auto max-h-[70vh] pr-4">
-              <Link href="/catalog" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-white/50 transition-colors">All Collections</Link>
-              
-              <div className="space-y-4">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-white/30">Men</span>
-                <div className="flex flex-col gap-4 ml-4">
-                  <Link href="/catalog/men/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-400 transition-colors">Parfum Complet</Link>
-                  <Link href="/catalog/men/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-400 transition-colors">Déconté Parfum</Link>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-white/30">Women</span>
-                <div className="flex flex-col gap-4 ml-4">
-                  <Link href="/catalog/women/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-400 transition-colors">Parfum Complet</Link>
-                  <Link href="/catalog/women/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-400 transition-colors">Déconté Parfum</Link>
-                </div>
-              </div>
-
-              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-white/50 transition-colors mt-4">Contact</Link>
+            {/* MENU HEADER */}
+            <div className="flex justify-between items-center mb-16">
+              <span className="text-xl font-serif tracking-[0.3em] font-light">ARABI SHOP</span>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 hover:rotate-90 transition-transform duration-500"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
             </div>
 
-            <div className="mt-20 border-t border-white/10 pt-10 flex flex-col gap-4">
-              <span className="text-[10px] uppercase tracking-[0.5em] text-white/30">Maison Arabi Shop</span>
-              <div className="flex gap-6">
-                <span className="text-xs font-light">Instagram</span>
-                <span className="text-xs font-light">Twitter</span>
+            <div className="flex flex-col gap-10 w-full max-w-sm">
+              <Link href="/catalog" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors">All Collections</Link>
+              
+              <div className="space-y-6">
+                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">Men</span>
+                <div className="flex flex-col gap-5 ml-4">
+                  <Link href="/catalog/men/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Parfum Complet</Link>
+                  <Link href="/catalog/men/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Déconté Parfum</Link>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">Women</span>
+                <div className="flex flex-col gap-5 ml-4">
+                  <Link href="/catalog/women/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Parfum Complet</Link>
+                  <Link href="/catalog/women/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Déconté Parfum</Link>
+                </div>
+              </div>
+
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors pt-4">Contact</Link>
+            </div>
+
+            <div className="mt-auto pt-12 pb-8 border-t border-black/5 flex flex-col gap-4">
+              <span className="text-[10px] uppercase tracking-[0.5em] text-black/30">Maison Arabi Shop</span>
+              <div className="flex gap-8">
+                <span className="text-sm font-light hover:opacity-50 cursor-pointer transition-opacity">Instagram</span>
+                <span className="text-sm font-light hover:opacity-50 cursor-pointer transition-opacity">Twitter</span>
               </div>
             </div>
           </motion.div>

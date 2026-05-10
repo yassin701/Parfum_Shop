@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../redux/slices/uiSlice";
 import { cartActions } from "../../redux/slices/cartSlice";
+import Link from "next/link";
 
 export default function CartDrawer() {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={toggleCartHandler}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200]"
           />
 
           {/* DRAWER */}
@@ -35,7 +36,7 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl flex flex-col"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[210] shadow-2xl flex flex-col"
           >
             {/* HEADER */}
             <div className="p-8 border-b border-zinc-100 flex justify-between items-center">
@@ -117,9 +118,13 @@ export default function CartDrawer() {
                   <span className="text-xs uppercase tracking-[0.2em] text-zinc-500">Subtotal</span>
                   <span className="text-xl font-serif">{totalAmount} <span className="text-xs font-sans">MAD</span></span>
                 </div>
-                <button className="w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-black/10">
+                <Link 
+                  href="/checkout"
+                  onClick={toggleCartHandler}
+                  className="block w-full bg-black text-white py-5 text-center text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-black/10"
+                >
                   Proceed to Checkout
-                </button>
+                </Link>
                 <p className="text-[9px] text-center text-zinc-400 tracking-wider">Shipping & taxes calculated at checkout</p>
               </div>
             )}

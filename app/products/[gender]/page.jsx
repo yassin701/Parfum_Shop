@@ -36,13 +36,13 @@ export default function GenderProductPage({ params: paramsPromise }) {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto p-8 pt-32">
-        <header className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-100 pb-10">
+      <div className="max-w-7xl mx-auto p-6 md:p-8 pt-32">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-gray-100 pb-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h1 className="text-6xl font-serif mb-4 capitalize italic tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-serif mb-4 capitalize italic tracking-tight">
               {gender}&apos;s Collection
             </h1>
             <div className="flex items-center gap-4">

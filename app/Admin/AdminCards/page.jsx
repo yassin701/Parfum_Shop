@@ -9,6 +9,9 @@ export default function AdminProducts() {
     const [editingProduct, setEditingProduct] = useState(null);
     const [deletingProduct, setDeletingProduct] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [genderFilter, setGenderFilter] = useState("all");
+    const [typeFilter, setTypeFilter] = useState("all");
 
     useEffect(() => {
         fetchProducts();
@@ -22,6 +25,13 @@ export default function AdminProducts() {
             console.error("Error fetching products:", err);
         }
     };
+
+    const filteredProducts = products.filter((product) => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesGender = genderFilter === "all" || product.gender === genderFilter;
+        const matchesType = typeFilter === "all" || product.product_type === typeFilter;
+        return matchesSearch && matchesGender && matchesType;
+    });
 
     const handleDelete = async () => {
         if (!deletingProduct) return;
@@ -57,15 +67,54 @@ export default function AdminProducts() {
 
     return (
         <div className="p-6">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-                    Inventory <span className="text-gray-400 font-light">Management</span>
-                </h1>
-                <p className="text-sm text-gray-500">{products.length} Products Total</p>
+            <div className="flex flex-col gap-6 mb-12">
+                <div className="flex justify-between items-center">
+                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                        Inventory <span className="text-gray-400 font-light">Management</span>
+                    </h1>
+                    <p className="text-sm text-gray-500">{filteredProducts.length} Products Found</p>
+                </div>
+
+                {/* FILTERS BAR */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-zinc-50 p-6 rounded-3xl border border-zinc-100">
+                    <div className="md:col-span-2 relative group">
+                        <input 
+                            type="text"
+                            placeholder="Search by name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full bg-white border border-zinc-200 rounded-xl py-3 px-12 text-sm outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all"
+                        />
+                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    <select 
+                        value={genderFilter}
+                        onChange={(e) => setGenderFilter(e.target.value)}
+                        className="bg-white border border-zinc-200 rounded-xl py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all appearance-none cursor-pointer"
+                    >
+                        <option value="all">All Genders</option>
+                        <option value="men">Men</option>
+                        <option value="women">Women</option>
+                        <option value="unisex">Unisex</option>
+                    </select>
+
+                    <select 
+                        value={typeFilter}
+                        onChange={(e) => setTypeFilter(e.target.value)}
+                        className="bg-white border border-zinc-200 rounded-xl py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all appearance-none cursor-pointer"
+                    >
+                        <option value="all">All Types</option>
+                        <option value="complet">Parfum Complet</option>
+                        <option value="deconte">Déconté Parfum</option>
+                    </select>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <Cards
                         key={product.id}
                         product={product}
