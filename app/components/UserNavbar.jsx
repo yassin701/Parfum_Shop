@@ -24,8 +24,8 @@ export default function UserNavbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-[200] h-20 md:h-24 flex items-center transition-all duration-500 ${
         isScrolled || isMobileMenuOpen
-          ? "bg-white/80 backdrop-blur-2xl shadow-2xl border-b border-black/5 text-black" 
-          : "bg-transparent text-black"
+          ? "bg-white/80 backdrop-blur-2xl shadow-xl border-b border-zinc-100 text-black" 
+          : "bg-white text-black"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
@@ -98,19 +98,7 @@ export default function UserNavbar() {
 
         {/* ICONS */}
         <div className="flex items-center gap-4 md:gap-8">
-          <button className="hover:scale-110 transition-transform duration-300 hidden sm:block">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </button>
-
-          <Link href="/Admin/Login" className="hover:scale-110 transition-transform duration-300">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </Link>
+          
 
           <button
             onClick={() => dispatch(uiActions.toggle())}
