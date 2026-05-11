@@ -16,7 +16,7 @@ export default function CheckoutPage() {
     const t = useTranslations("Checkout");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    
+
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
@@ -33,7 +33,7 @@ export default function CheckoutPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        
+
         try {
             const response = await axios.post("/api/orders", {
                 ...formData,
@@ -58,7 +58,7 @@ export default function CheckoutPage() {
         return (
             <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
                 <UserNavbar />
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center"
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
             <main className="max-w-7xl mx-auto px-6 pt-32 lg:pt-40">
                 <AnimatePresence mode="wait">
                     {!isSuccess ? (
-                        <motion.div 
+                        <motion.div
                             key="checkout"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -99,7 +99,7 @@ export default function CheckoutPage() {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="space-y-1">
                                                 <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("full_name")}</label>
-                                                <input 
+                                                <input
                                                     type="text" required name="fullName" value={formData.fullName} onChange={handleChange}
                                                     className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                     placeholder="e.g. Adam Smith"
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
                                             </div>
                                             <div className="space-y-1">
                                                 <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("phone")}</label>
-                                                <input 
+                                                <input
                                                     type="tel" required name="phone" value={formData.phone} onChange={handleChange}
                                                     className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                     placeholder="+212 6..."
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                                         </div>
                                         <div className="space-y-1">
                                             <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("email")}</label>
-                                            <input 
+                                            <input
                                                 type="email" required name="email" value={formData.email} onChange={handleChange}
                                                 className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                 placeholder="signature@example.com"
@@ -128,7 +128,7 @@ export default function CheckoutPage() {
                                         <h2 className="text-[10px] uppercase tracking-[0.4em] font-black text-zinc-300">{t("shipping_title")}</h2>
                                         <div className="space-y-1">
                                             <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("address")}</label>
-                                            <input 
+                                            <input
                                                 type="text" required name="address" value={formData.address} onChange={handleChange}
                                                 className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                 placeholder="Street, Building, Apartment..."
@@ -137,7 +137,7 @@ export default function CheckoutPage() {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="space-y-1">
                                                 <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("city")}</label>
-                                                <input 
+                                                <input
                                                     type="text" required name="city" value={formData.city} onChange={handleChange}
                                                     className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                     placeholder="Casablanca"
@@ -145,7 +145,7 @@ export default function CheckoutPage() {
                                             </div>
                                             <div className="space-y-1">
                                                 <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">{t("notes")}</label>
-                                                <input 
+                                                <input
                                                     type="text" name="notes" value={formData.notes} onChange={handleChange}
                                                     className="w-full bg-white border-none p-4 rounded-2xl text-sm focus:ring-1 focus:ring-zinc-900 transition-all outline-none"
                                                     placeholder="Gift wrap? Gate code?"
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
                                     </section>
 
                                     <div className="pt-6">
-                                        <button 
+                                        <button
                                             disabled={isSubmitting}
                                             className="w-full bg-zinc-950 text-white py-6 rounded-2xl font-black text-[10px] uppercase tracking-[0.5em] hover:bg-zinc-800 transition-all active:scale-[0.98] shadow-2xl shadow-zinc-200 disabled:opacity-50"
                                         >
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="mt-8 flex items-center justify-center gap-4 text-[8px] uppercase tracking-[0.3em] text-zinc-300 font-black">
                                     <div className="h-[1px] flex-1 bg-zinc-100" />
                                     <span>{t("verified")}</span>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                             </div>
                         </motion.div>
                     ) : (
-                        <motion.div 
+                        <motion.div
                             key="success"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}

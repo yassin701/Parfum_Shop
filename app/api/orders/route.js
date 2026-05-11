@@ -3,15 +3,15 @@ import { supabase } from "@/lib/supabase";
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { 
-            fullName, 
-            email, 
-            phone, 
-            address, 
-            city, 
-            notes, 
-            items, 
-            totalAmount 
+        const {
+            fullName,
+            email,
+            phone,
+            address,
+            city,
+            notes,
+            items,
+            totalAmount
         } = body;
 
         const { data, error } = await supabase
@@ -33,10 +33,10 @@ export async function POST(req) {
 
         if (error) {
             console.error("DETAILED SUPABASE ERROR:", error);
-            return Response.json({ 
+            return Response.json({
                 error: error.message,
                 details: error.details,
-                hint: error.hint 
+                hint: error.hint
             }, { status: 500 });
         }
 
