@@ -1,16 +1,21 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Link from "next/link";
+import { Link } from "@/routing";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UserNavbar from "./components/UserNavbar";
+import useDirection from "./hooks/useDirection";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HomePage() {
   const heroRef = useRef(null);
+  const { multiplier } = useDirection();
+  const t = useTranslations("HomePage");
+  const tFooter = useTranslations("Footer");
 
   useEffect(() => {
     // 1. PRO CINEMATIC ZOOM ANIMATION
@@ -65,7 +70,7 @@ export default function HomePage() {
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [multiplier]);
 
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white overflow-hidden">
@@ -98,12 +103,12 @@ export default function HomePage() {
             </div>
             <div>
               <h2 className="zoom-title text-7xl md:text-[14rem] font-serif italic text-white leading-none tracking-tighter drop-shadow-2xl">
-                Welcome
+                {t("hero_welcome")}
               </h2>
             </div>
             <div className="hero-sub mt-12 flex flex-col items-center">
               <div className="h-24 w-[1px] bg-white/40 mx-auto" />
-              <span className="text-[8px] uppercase tracking-[0.5em] text-white/60 mt-6 block">Scroll to begin the journey</span>
+              <span className="text-[8px] uppercase tracking-[0.5em] text-white/60 mt-6 block">{t("hero_scroll")}</span>
             </div>
           </div>
         </section>
@@ -112,15 +117,15 @@ export default function HomePage() {
         <section className="py-40 bg-white px-6">
           <div className="max-w-7xl mx-auto">
             <header className="reveal-up text-center mb-24">
-              <span className="text-[10px] uppercase tracking-[0.6em] text-amber-500 font-bold mb-4 block">The Excellence</span>
-              <h2 className="text-4xl md:text-7xl font-serif italic text-zinc-900">Why Choose <span className="text-zinc-300 font-light not-italic">Us</span></h2>
+              <span className="text-[10px] uppercase tracking-[0.6em] text-amber-500 font-bold mb-4 block">{t("excellence_subtitle")}</span>
+              <h2 className="text-4xl md:text-7xl font-serif italic text-zinc-900">{t("excellence_title_1")} <span className="text-zinc-300 font-light not-italic">{t("excellence_title_2")}</span></h2>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { title: "Authentic Mastery", desc: "Every bottle is a certified masterpiece, sourced directly from the most prestigious maisons.", icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" },
-                { title: "Curated Excellence", desc: "Our collection is meticulously selected for those who seek scents that define their identity.", icon: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" },
-                { title: "Luxury Delivery", desc: "Premium packaging and worldwide shipping, ensuring your liquid gold arrives in perfect condition.", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" }
+                { title: t("feature1_title"), desc: t("feature1_desc"), icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" },
+                { title: t("feature2_title"), desc: t("feature2_desc"), icon: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" },
+                { title: t("feature3_title"), desc: t("feature3_desc"), icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" }
               ].map((item, i) => (
                 <div key={i} className="reveal-up p-12 bg-zinc-50 rounded-[3rem] border border-zinc-100 group hover:bg-zinc-900 transition-all duration-700">
                   <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-8 shadow-sm group-hover:bg-amber-400 transition-colors">
@@ -149,17 +154,17 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-zinc-950/80" />
 
           <div className="relative z-10 max-w-4xl text-center">
-            <span className="reveal-up text-[10px] uppercase tracking-[1em] text-amber-400 font-bold mb-12 block">The Philosophy</span>
+            <span className="reveal-up text-[10px] uppercase tracking-[1em] text-amber-400 font-bold mb-12 block">{t("philosophy_subtitle")}</span>
             <h2 className="reveal-up text-5xl md:text-8xl font-serif italic text-white leading-tight mb-12">
-              Scent is the <br /> 
-              <span className="text-zinc-500 font-light not-italic underline decoration-[1px] underline-offset-[20px]">Soul of Memory</span>
+              {t("philosophy_title_1")} <br /> 
+              <span className="text-zinc-500 font-light not-italic underline decoration-[1px] underline-offset-[20px]">{t("philosophy_title_2")}</span>
             </h2>
             <p className="reveal-up text-sm md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-              At Arabi Shop, we believe a perfume is not just a fragrance—it is a liquid narrative. It is the silent language of your presence and the lingering echo of your absence. We curate only the souls that speak.
+              {t("philosophy_desc")}
             </p>
             <div className="reveal-up mt-16">
               <Link href="/catalog" className="inline-block px-12 py-5 border border-white/20 text-white text-[10px] uppercase tracking-[0.5em] font-black rounded-full hover:bg-white hover:text-zinc-950 transition-all duration-700">
-                Explore The Library
+                {t("philosophy_btn")}
               </Link>
             </div>
           </div>
@@ -169,11 +174,11 @@ export default function HomePage() {
         <section className="py-40 bg-white">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
             <div className="reveal-up order-2 md:order-1">
-              <span className="text-[10px] uppercase tracking-[0.6em] text-zinc-400 font-bold mb-6 block">Ready to choose?</span>
-              <h2 className="text-4xl md:text-6xl font-serif italic text-zinc-900 mb-8">Enter the <br /> <span className="text-zinc-300 font-light not-italic">Maison Catalog</span></h2>
+              <span className="text-[10px] uppercase tracking-[0.6em] text-zinc-400 font-bold mb-6 block">{t("teaser_subtitle")}</span>
+              <h2 className="text-4xl md:text-6xl font-serif italic text-zinc-900 mb-8">{t("teaser_title_1")} <br /> <span className="text-zinc-300 font-light not-italic">{t("teaser_title_2")}</span></h2>
               <div className="flex gap-4">
-                <Link href="/catalog/men" className="px-10 py-4 bg-zinc-950 text-white text-[9px] uppercase tracking-[0.4em] font-black rounded-full hover:bg-amber-400 hover:text-zinc-950 transition-all">For Him</Link>
-                <Link href="/catalog/women" className="px-10 py-4 border border-zinc-200 text-zinc-900 text-[9px] uppercase tracking-[0.4em] font-black rounded-full hover:bg-zinc-900 hover:text-white transition-all">For Her</Link>
+                <Link href="/catalog/men" className="px-10 py-4 bg-zinc-950 text-white text-[9px] uppercase tracking-[0.4em] font-black rounded-full hover:bg-amber-400 hover:text-zinc-950 transition-all">{t("teaser_btn_men")}</Link>
+                <Link href="/catalog/women" className="px-10 py-4 border border-zinc-200 text-zinc-900 text-[9px] uppercase tracking-[0.4em] font-black rounded-full hover:bg-zinc-900 hover:text-white transition-all">{t("teaser_btn_women")}</Link>
               </div>
             </div>
             <div className="reveal-up order-1 md:order-2 relative aspect-square overflow-hidden rounded-[4rem]">
@@ -188,12 +193,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="text-center md:text-left">
             <span className="text-2xl font-serif tracking-[0.4em] text-zinc-900">ARABI SHOP</span>
-            <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-400 mt-2 tracking-[0.5em]">Paris / Dubai / London</p>
+            <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-400 mt-2 tracking-[0.5em]">{tFooter("locations")}</p>
           </div>
           <div className="flex gap-8 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-400">
-             <span>Instagram</span>
-             <span>WhatsApp</span>
-             <span>Privacy</span>
+             <span>{tFooter("instagram")}</span>
+             <span>{tFooter("whatsapp")}</span>
+             <span>{tFooter("privacy")}</span>
           </div>
         </div>
       </footer>

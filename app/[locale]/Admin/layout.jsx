@@ -16,7 +16,7 @@ export default function AdminLayout({ children }) {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isLoginPage = pathname === "/Admin/Login";
+  const isLoginPage = pathname.endsWith("/Admin/Login");
 
   useEffect(() => {
     const checkUser = async () => {

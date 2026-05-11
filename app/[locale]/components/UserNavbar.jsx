@@ -1,16 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/routing";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { uiActions } from "../../redux/slices/uiSlice";
+import { uiActions } from "../../../redux/slices/uiSlice";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 export default function UserNavbar() {
   const dispatch = useDispatch();
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const t = useTranslations("Navigation");
+  const tList = useTranslations("ProductList");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +40,7 @@ export default function UserNavbar() {
             ARABI SHOP
           </span>
           <span className="text-[8px] md:text-[9px] uppercase tracking-[0.6em] -mt-1 transition-colors opacity-60">
-            Maison de Parfum
+            {t("brand_sub")}
           </span>
         </Link>
 
@@ -45,7 +50,7 @@ export default function UserNavbar() {
             href="/catalog"
             className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all relative group"
           >
-            Collections
+            {t("catalog")}
             <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full bg-black`} />
           </Link>
 
@@ -55,15 +60,15 @@ export default function UserNavbar() {
               href="/catalog/men"
               className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all flex items-center gap-1"
             >
-              Men
+              {t("men")}
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover/menu:rotate-180">
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </Link>
             <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-500 transform translate-y-2 group-hover/menu:translate-y-0">
               <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4 text-black">
-                <Link href="/catalog/men/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Parfum Complet</Link>
-                <Link href="/catalog/men/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Déconté Parfum</Link>
+                <Link href="/catalog/men/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">{tList("complet")} Collection</Link>
+                <Link href="/catalog/men/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">{tList("deconte")} Parfum</Link>
               </div>
             </div>
           </div>
@@ -74,15 +79,15 @@ export default function UserNavbar() {
               href="/catalog/women"
               className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all flex items-center gap-1"
             >
-              Women
+              {t("women")}
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover/menu:rotate-180">
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </Link>
             <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-500 transform translate-y-2 group-hover/menu:translate-y-0">
               <div className="bg-white/95 backdrop-blur-3xl border border-zinc-100 rounded-2xl p-6 shadow-2xl min-w-[200px] flex flex-col gap-4 text-black">
-                <Link href="/catalog/women/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Parfum Complet</Link>
-                <Link href="/catalog/women/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">Déconté Parfum</Link>
+                <Link href="/catalog/women/complet" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">{tList("complet")} Collection</Link>
+                <Link href="/catalog/women/deconte" className="text-[9px] uppercase tracking-[0.2em] font-bold text-zinc-500 hover:text-zinc-950 transition-colors">{tList("deconte")} Parfum</Link>
               </div>
             </div>
           </div>
@@ -91,14 +96,25 @@ export default function UserNavbar() {
             href="/contact"
             className="text-[10px] uppercase tracking-[0.3em] font-light hover:opacity-50 transition-all relative group"
           >
-            Contact
+            {t("contact")}
             <span className={`absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full bg-black`} />
           </Link>
         </nav>
 
         {/* ICONS */}
         <div className="flex items-center gap-4 md:gap-8">
-          
+          <LanguageSwitcher />
+
+          <Link
+            href="/Admin/Login"
+            className="hover:scale-110 transition-transform duration-300 text-zinc-900"
+            title="Admin Login"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </Link>
 
           <button
             onClick={() => dispatch(uiActions.toggle())}
@@ -149,25 +165,25 @@ export default function UserNavbar() {
             </div>
 
             <div className="flex flex-col gap-10 w-full max-w-sm">
-              <Link href="/catalog" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors">All Collections</Link>
+              <Link href="/catalog" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors">{t("all_collections")}</Link>
               
               <div className="space-y-6">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">Men</span>
+                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">{t("men")}</span>
                 <div className="flex flex-col gap-5 ml-4">
-                  <Link href="/catalog/men/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Parfum Complet</Link>
-                  <Link href="/catalog/men/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Déconté Parfum</Link>
+                  <Link href="/catalog/men/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">{tList("complet")} Collection</Link>
+                  <Link href="/catalog/men/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">{tList("deconte")} Parfum</Link>
                 </div>
               </div>
 
               <div className="space-y-6">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">Women</span>
+                <span className="text-[10px] uppercase tracking-[0.5em] text-black/30 font-bold">{t("women")}</span>
                 <div className="flex flex-col gap-5 ml-4">
-                  <Link href="/catalog/women/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Parfum Complet</Link>
-                  <Link href="/catalog/women/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">Déconté Parfum</Link>
+                  <Link href="/catalog/women/complet" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">{tList("complet")} Collection</Link>
+                  <Link href="/catalog/women/deconte" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-light hover:text-amber-600 transition-colors">{tList("deconte")} Parfum</Link>
                 </div>
               </div>
 
-              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors pt-4">Contact</Link>
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-4xl font-serif italic tracking-tighter hover:text-black/50 transition-colors pt-4">{t("contact")}</Link>
             </div>
 
             <div className="mt-auto pt-12 pb-8 border-t border-black/5 flex flex-col gap-4">
@@ -176,6 +192,13 @@ export default function UserNavbar() {
                 <span className="text-sm font-light hover:opacity-50 cursor-pointer transition-opacity">Instagram</span>
                 <span className="text-sm font-light hover:opacity-50 cursor-pointer transition-opacity">Twitter</span>
               </div>
+              <Link 
+                href="/Admin/Login" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 mt-4 hover:text-black transition-colors"
+              >
+                Admin Access
+              </Link>
             </div>
           </motion.div>
         )}

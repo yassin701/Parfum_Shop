@@ -1,13 +1,15 @@
 "use client";
 
 import { use, useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/routing";
 import axios from "axios";
 import { motion } from "framer-motion";
-import UserNavbar from "@/app/components/UserNavbar";
+import UserNavbar from "@/app/[locale]/components/UserNavbar";
+import { useTranslations } from "next-intl";
 
 export default function GenderSelectionPage({ params }) {
     const { gender } = use(params);
+    const t = useTranslations("GenderSelection");
     const isMen = gender === "men";
     const [previews, setPreviews] = useState({});
 
@@ -33,17 +35,17 @@ export default function GenderSelectionPage({ params }) {
     const types = [
         {
             id: "complet",
-            title: "Parfum Complet",
-            subtitle: "Full Collection",
-            description: "The complete artisanal experience in its original majestic vessel.",
+            title: t("complet_title"),
+            subtitle: t("complet_subtitle"),
+            description: t("complet_desc"),
             image: previews.complet,
             href: `/catalog/${gender}/complet`,
         },
         {
             id: "deconte",
-            title: "Déconté Parfum",
-            subtitle: "Extrait de Parfum",
-            description: "Pure essence, meticulously decanted for the most discerning collectors.",
+            title: t("deconte_title"),
+            subtitle: t("deconte_subtitle"),
+            description: t("deconte_desc"),
             image: previews.deconte,
             href: `/catalog/${gender}/deconte`,
         },
@@ -60,7 +62,7 @@ export default function GenderSelectionPage({ params }) {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-[10px] md:text-xs uppercase tracking-[0.6em] text-zinc-400 font-bold mb-4 block"
                     >
-                        {isMen ? "Pour Homme" : "Pour Femme"}
+                        {isMen ? t("homme") : t("femme")}
                     </motion.span>
                     <motion.h1 
                         initial={{ opacity: 0, y: 20 }}
@@ -68,7 +70,7 @@ export default function GenderSelectionPage({ params }) {
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-6xl font-serif italic text-zinc-900"
                     >
-                        Select Your <span className="text-zinc-300 font-light">Experience</span>
+                        {t("title_1")} <span className="text-zinc-300 font-light">{t("title_2")}</span>
                     </motion.h1>
                 </div>
 
@@ -102,7 +104,7 @@ export default function GenderSelectionPage({ params }) {
                                     </p>
                                     <div className="flex items-center gap-6">
                                         <span className="inline-block px-10 md:px-12 py-3 md:py-4 bg-white text-zinc-950 text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-black rounded-full transition-all duration-500 group-hover:bg-amber-400 group-hover:text-zinc-950">
-                                            Select
+                                            {t("select")}
                                         </span>
                                         <div className="hidden md:block h-[1px] w-0 bg-amber-400 transition-all duration-500 group-hover:w-20" />
                                     </div>

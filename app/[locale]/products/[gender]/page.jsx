@@ -2,12 +2,14 @@
 
 import { useEffect, useState, use } from "react";
 import axios from "axios";
-import Cards from "@/app/components/Cards";
+import Cards from "@/app/[locale]/components/Cards";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function GenderProductPage({ params: paramsPromise }) {
   const params = use(paramsPromise);
   const { gender } = params;
+  const t = useTranslations("Products");
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,12 +45,12 @@ export default function GenderProductPage({ params: paramsPromise }) {
             animate={{ opacity: 1, x: 0 }}
           >
             <h1 className="text-4xl md:text-6xl font-serif mb-4 capitalize italic tracking-tight">
-              {gender}&apos;s Collection
+              {gender === "men" ? t("men") : t("women")} {t("collection")}
             </h1>
             <div className="flex items-center gap-4">
               <span className="h-[1px] w-12 bg-black" />
               <p className="text-gray-400 uppercase text-[10px] tracking-[0.4em]">
-                Authentic Arabi Masterpieces
+                {t("subtitle")}
               </p>
             </div>
           </motion.div>
@@ -58,7 +60,7 @@ export default function GenderProductPage({ params: paramsPromise }) {
             <div className="relative group min-w-[200px]">
               <input
                 type="text"
-                placeholder="Search Collection..."
+                placeholder={t("search")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-transparent border-b border-gray-100 py-2 text-[10px] uppercase tracking-[0.2em] focus:outline-none focus:border-black transition-colors placeholder:text-gray-300"
@@ -73,19 +75,19 @@ export default function GenderProductPage({ params: paramsPromise }) {
 
             <div className="flex items-center gap-8">
               <div className="flex flex-col items-end gap-2">
-                <span className="text-[8px] uppercase tracking-[0.3em] text-gray-400">Sort By</span>
+                <span className="text-[8px] uppercase tracking-[0.3em] text-gray-400">{t("sort_by")}</span>
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="appearance-none bg-transparent border-none text-[10px] uppercase tracking-[0.2em] font-medium focus:ring-0 cursor-pointer text-right outline-none hover:text-gray-400 transition-colors"
                 >
-                  <option value="newest">New Arrivals</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
+                  <option value="newest">{t("newest")}</option>
+                  <option value="price-asc">{t("price_asc")}</option>
+                  <option value="price-desc">{t("price_desc")}</option>
                 </select>
               </div>
               <div className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-medium">
-                {filteredProducts.length} Items
+                {filteredProducts.length} {t("items")}
               </div>
             </div>
           </div>
@@ -125,8 +127,8 @@ export default function GenderProductPage({ params: paramsPromise }) {
 
         {filteredProducts.length === 0 && !loading && (
           <div className="h-[40vh] flex flex-col items-center justify-center">
-            <p className="font-serif italic text-2xl text-gray-300">
-              {searchQuery ? `No results found for "${searchQuery}"` : "The collection is currently evolving..."}
+            <p className="font-serif italic text-2xl text-gray-300 text-center">
+              {searchQuery ? `${t("no_results")} "${searchQuery}"` : t("empty")}
             </p>
           </div>
         )}

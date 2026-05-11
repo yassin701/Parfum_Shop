@@ -3,15 +3,17 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { uiActions } from "../../redux/slices/uiSlice";
-import { cartActions } from "../../redux/slices/cartSlice";
-import Link from "next/link";
+import { uiActions } from "../../../redux/slices/uiSlice";
+import { cartActions } from "../../../redux/slices/cartSlice";
+import { Link } from "@/routing";
+import { useTranslations } from "next-intl";
 
 export default function CartDrawer() {
   const dispatch = useDispatch();
   const isVisible = useSelector((state) => state.ui.cartVisible);
   const cartItems = useSelector((state) => state.cart.items);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const t = useTranslations("CartDrawer");
 
   const toggleCartHandler = () => {
     dispatch(uiActions.toggle());
@@ -41,8 +43,8 @@ export default function CartDrawer() {
             {/* HEADER */}
             <div className="p-8 border-b border-zinc-100 flex justify-between items-center">
               <div>
-                <h2 className="text-2xl font-serif tracking-tight">Shopping Bag</h2>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mt-1">Maison Arabi</p>
+                <h2 className="text-2xl font-serif tracking-tight">{t("title")}</h2>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mt-1">{t("subtitle")}</p>
               </div>
               <button 
                 onClick={toggleCartHandler}
@@ -65,7 +67,7 @@ export default function CartDrawer() {
                       <path d="M16 10a4 4 0 0 1-8 0" />
                     </svg>
                   </div>
-                  <p className="text-sm text-zinc-500 font-light italic">Your bag is currently empty.</p>
+                  <p className="text-sm text-zinc-500 font-light italic">{t("empty")}</p>
                 </div>
               ) : (
                 cartItems.map((item) => (
@@ -102,7 +104,7 @@ export default function CartDrawer() {
                           onClick={() => dispatch(cartActions.removeFromCart(item.id))}
                           className="text-[10px] uppercase tracking-widest text-red-400 hover:text-red-600 transition-colors"
                         >
-                          Remove
+                          {t("remove")}
                         </button>
                       </div>
                     </div>
@@ -115,7 +117,7 @@ export default function CartDrawer() {
             {cartItems.length > 0 && (
               <div className="p-8 bg-zinc-50 space-y-6">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-500">Subtotal</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-500">{t("subtotal")}</span>
                   <span className="text-xl font-serif">{totalAmount} <span className="text-xs font-sans">MAD</span></span>
                 </div>
                 <Link 
@@ -123,9 +125,9 @@ export default function CartDrawer() {
                   onClick={toggleCartHandler}
                   className="block w-full bg-black text-white py-5 text-center text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-black/10"
                 >
-                  Proceed to Checkout
+                  {t("checkout")}
                 </Link>
-                <p className="text-[9px] text-center text-zinc-400 tracking-wider">Shipping & taxes calculated at checkout</p>
+                <p className="text-[9px] text-center text-zinc-400 tracking-wider">{t("shipping")}</p>
               </div>
             )}
           </motion.div>

@@ -3,11 +3,14 @@
 import { useState, useEffect, use } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import UserNavbar from "@/app/components/UserNavbar";
-import ProductCard from "@/app/components/Cards";
+import UserNavbar from "@/app/[locale]/components/UserNavbar";
+import ProductCard from "@/app/[locale]/components/Cards";
+import { useTranslations } from "next-intl";
 
 export default function ProductListPage({ params }) {
     const { gender, type } = use(params);
+    const t = useTranslations("ProductList");
+    const tGen = useTranslations("Products");
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -29,8 +32,6 @@ export default function ProductListPage({ params }) {
     const filteredProducts = products.filter(product => 
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-    const title = `${gender === 'men' ? "Men's" : "Women's"} ${type === 'deconte' ? 'Déconté' : 'Complete'} Collection`;
 
     return (
         <div className="min-h-screen bg-zinc-50 selection:bg-zinc-950 selection:text-white">
@@ -57,8 +58,8 @@ export default function ProductListPage({ params }) {
                             transition={{ delay: 0.1 }}
                             className="text-4xl md:text-7xl font-serif italic text-zinc-900 leading-tight"
                         >
-                            {gender === 'men' ? "Men's" : "Women's"} <br />
-                            <span className="text-zinc-300 font-light not-italic">{type === 'deconte' ? 'Déconté' : 'Complete'}</span> Collection
+                            {gender === 'men' ? tGen("men") : tGen("women")} <br />
+                            <span className="text-zinc-300 font-light not-italic">{type === 'deconte' ? t("deconte") : t("complet")}</span> {t("collection")}
                         </motion.h1>
                     </div>
 
@@ -71,7 +72,7 @@ export default function ProductListPage({ params }) {
                     >
                         <input 
                             type="text"
-                            placeholder="Search masterpiece..."
+                            placeholder={t("search")}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-white border border-zinc-200 rounded-2xl py-4 px-6 pl-14 text-sm outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all shadow-sm group-hover:shadow-md"
@@ -120,8 +121,8 @@ export default function ProductListPage({ params }) {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                                         </svg>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-zinc-900 mb-2">No masterworks found.</h3>
-                                    <p className="text-zinc-400">This specific collection is currently being curated.</p>
+                                    <h3 className="text-2xl font-bold text-zinc-900 mb-2">{t("no_results")}</h3>
+                                    <p className="text-zinc-400">{t("empty_desc")}</p>
                                 </motion.div>
                             )}
                         </AnimatePresence>
