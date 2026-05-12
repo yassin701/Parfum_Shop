@@ -20,7 +20,7 @@ export default function GenderSelectionPage({ params }) {
                     axios.get(`/api/products/GetProducts?gender=${gender}&type=complet&limit=1`),
                     axios.get(`/api/products/GetProducts?gender=${gender}&type=deconte&limit=1`)
                 ]);
-                
+
                 setPreviews({
                     complet: completRes.data[0]?.image_url,
                     deconte: deconteRes.data[0]?.image_url
@@ -38,7 +38,7 @@ export default function GenderSelectionPage({ params }) {
             title: t("complet_title"),
             subtitle: t("complet_subtitle"),
             description: t("complet_desc"),
-            image: previews.complet,
+            image: "https://res.cloudinary.com/dqronp5bo/image/upload/v1778595779/Would_You_Wear_a_Perfume_That_Smells_Like_Nothing__yozjrl.jpg",
             href: `/catalog/${gender}/complet`,
         },
         {
@@ -46,7 +46,7 @@ export default function GenderSelectionPage({ params }) {
             title: t("deconte_title"),
             subtitle: t("deconte_subtitle"),
             description: t("deconte_desc"),
-            image: previews.deconte,
+            image: "https://res.cloudinary.com/dqronp5bo/image/upload/v1778595447/Fragrance_Tester_Bottles_rtw0ae.jpg",
             href: `/catalog/${gender}/deconte`,
         },
     ];
@@ -54,17 +54,17 @@ export default function GenderSelectionPage({ params }) {
     return (
         <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white">
             <UserNavbar />
-            
+
             <main className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-12">
                 <div className="mb-12 text-center">
-                    <motion.span 
+                    <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-[10px] md:text-xs uppercase tracking-[0.6em] text-zinc-400 font-bold mb-4 block"
                     >
                         {isMen ? t("homme") : t("femme")}
                     </motion.span>
-                    <motion.h1 
+                    <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
@@ -86,7 +86,7 @@ export default function GenderSelectionPage({ params }) {
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/95 via-zinc-950/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
-                            
+
                             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 text-white">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -110,7 +110,7 @@ export default function GenderSelectionPage({ params }) {
                                     </div>
                                 </motion.div>
                             </div>
-                            
+
                             <div className="absolute inset-0 border-[0px] border-amber-400/30 transition-all duration-700 group-hover:border-[1px] pointer-events-none" />
                         </Link>
                     ))}

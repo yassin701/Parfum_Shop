@@ -28,7 +28,7 @@ export default function CatalogPage() {
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white">
       <UserNavbar />
-      
+
       <main className="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-12">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:h-[75vh]">
           {categories.map((cat, idx) => (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useDispatch } from "react-redux";
+import { Link } from "@/routing";
 import { cartActions } from "../../../redux/slices/cartSlice";
 import { uiActions } from "../../../redux/slices/uiSlice";
 import { useTranslations } from "next-intl";
@@ -26,6 +27,11 @@ export default function ProductCard({
         );
         dispatch(uiActions.show());
     };
+
+    const catalogHref = `/catalog/${product.gender || "men"}/${product.product_type || "complet"}`;
+    const titleLinkClass =
+        "text-lg font-semibold leading-tight text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:text-black hover:decoration-zinc-900 transition-colors";
+
     return (
         <div className="group bg-white rounded-2xl border border-zinc-100 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:-translate-y-1">
             {/* IMAGE CONTAINER */}
@@ -42,22 +48,24 @@ export default function ProductCard({
                     </p>
                 </div>
                 {/* METADATA BADGES */}
-                    <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-                        <span className="bg-zinc-950/80 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-white/10">
-                            {product.gender === 'men' ? tGen("men") : tGen("women")}
+                <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+                    <span className="bg-zinc-950/80 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-white/10">
+                        {product.gender === 'men' ? tGen("men") : tGen("women")}
+                    </span>
+                    {product.product_type && (
+                        <span className="bg-amber-400 text-zinc-950 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                            {product.product_type === 'deconte' ? t("deconte") : t("complet")}
                         </span>
-                        {product.product_type && (
-                            <span className="bg-amber-400 text-zinc-950 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
-                                {product.product_type === 'deconte' ? t("deconte") : t("complet")}
-                            </span>
-                        )}
-                    </div>
+                    )}
+                </div>
             </div>
 
             {/* CONTENT */}
             <div className="p-6">
-                <h2 className="text-lg font-semibold text-zinc-900 leading-tight group-hover:text-black transition-colors">
-                    {product.name}
+                <h2 className="leading-tight">
+                    <Link href={catalogHref} className={titleLinkClass}>
+                        {product.name}
+                    </Link>
                 </h2>
 
                 {isAdmin ? (
