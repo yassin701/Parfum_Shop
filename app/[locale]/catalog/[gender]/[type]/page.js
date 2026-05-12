@@ -34,57 +34,55 @@ export default function ProductListPage({ params }) {
     );
 
     return (
-        <div className="min-h-screen bg-zinc-50 selection:bg-zinc-950 selection:text-white">
+        <div className="min-h-screen bg-white selection:bg-zinc-950 selection:text-white">
             <UserNavbar />
             
-            <main className="container-responsive mx-auto section-padding-lg">
-                {/* COLLECTION HEADER - FULLY RESPONSIVE */}
-                <header className="mb-responsive-xl flex flex-col-responsive-between gap-responsive-lg">
-                    <div className="space-y-responsive-md">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center gap-responsive-md"
-                        >
-                            <div className="h-[1px] w-responsive min-w-8 bg-zinc-300" />
-                            <span className="text-sm-responsive uppercase tracking-[0.5em] text-zinc-400 font-black whitespace-nowrap">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-24 md:pt-28 lg:pt-32 pb-10">
+                <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-gray-100 pb-10">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                    >
+                        <h1 className="text-4xl md:text-6xl font-serif mb-4 italic tracking-tight text-zinc-900 capitalize">
+                            {gender === "men" ? tGen("men") : tGen("women")}{" "}
+                            <span className="text-zinc-300 font-light not-italic">
+                                {type === "deconte" ? t("deconte") : t("complet")}
+                            </span>{" "}
+                            <span className="font-light not-italic text-zinc-900">{t("collection")}</span>
+                        </h1>
+                        <div className="flex items-center gap-4">
+                            <span className="h-[1px] w-12 bg-black" />
+                            <p className="text-gray-400 uppercase text-[10px] tracking-[0.4em]">
                                 Catalog / {gender} / {type}
-                            </span>
-                        </motion.div>
-                        
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="heading-xl-responsive font-serif italic text-zinc-900"
-                        >
-                            {gender === 'men' ? tGen("men") : tGen("women")} <br className="hidden sm:block" />
-                            <span className="text-zinc-300 font-light not-italic">{type === 'deconte' ? t("deconte") : t("complet")}</span> {t("collection")}
-                        </motion.h1>
-                    </div>
+                            </p>
+                        </div>
+                    </motion.div>
 
-                    {/* SEARCH BOX - RESPONSIVE SIZING */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="relative group w-full md:max-w-sm flex-shrink-0"
+                        transition={{ delay: 0.1 }}
+                        className="relative group min-w-[200px] w-full md:w-auto mt-8 md:mt-0"
                     >
-                        <input 
+                        <input
                             type="text"
                             placeholder={t("search")}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white border border-zinc-200 rounded-responsive-lg py-responsive-md px-responsive-md pl-responsive-lg text-base outline-none focus:ring-2 focus:ring-zinc-950/5 focus:border-zinc-950 transition-all shadow-responsive-sm group-hover:shadow-responsive-md"
+                            className="w-full bg-transparent border-b border-gray-100 py-2 pr-8 text-[10px] uppercase tracking-[0.2em] focus:outline-none focus:border-black transition-colors placeholder:text-gray-300"
                             aria-label="Search products"
                         />
                         <svg
-                            className="absolute left-responsive-md top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-zinc-950 transition-colors pointer-events-none"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            className="absolute right-0 top-3 text-gray-300 group-focus-within:text-black transition-colors pointer-events-none"
                         >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
                         </svg>
                     </motion.div>
                 </header>
@@ -93,11 +91,11 @@ export default function ProductListPage({ params }) {
                 <div className="relative">
                     {loading ? (
                         // Loading skeleton grid - responsive columns
-                        <div className="grid-cols-fluid-4">
+                       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                                 <div
                                     key={i}
-                                    className="aspect-responsive-product bg-white rounded-responsive-lg animate-pulse"
+                                    className="aspect-[3/4] bg-white rounded-2xl animate-pulse border border-zinc-100"
                                 />
                             ))}
                         </div>
@@ -107,7 +105,7 @@ export default function ProductListPage({ params }) {
                                 <motion.div 
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="grid-cols-fluid-4"
+                                   className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
                                 >
                                     {filteredProducts.map((product, idx) => (
                                         <motion.div
@@ -125,11 +123,11 @@ export default function ProductListPage({ params }) {
                                 <motion.div 
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="flex flex-col items-center justify-center py-responsive-xl text-center"
+                                    className="flex flex-col items-center justify-center py-20 text-center"
                                 >
-                                    <div className="w-20 h-20 bg-white rounded-responsive-lg mb-responsive-lg flex items-center justify-center shadow-responsive-sm border border-zinc-100">
+                                    <div className="w-20 h-20 bg-gray-50 rounded-2xl mb-6 flex items-center justify-center border border-gray-100">
                                         <svg
-                                            className="w-10 h-10 text-zinc-200"
+                                            className="w-10 h-10 text-gray-200"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
@@ -142,10 +140,10 @@ export default function ProductListPage({ params }) {
                                             />
                                         </svg>
                                     </div>
-                                    <h3 className="heading-lg-responsive font-bold text-zinc-900 mb-responsive-md">
+                                    <h3 className="text-xl font-bold text-zinc-900 mb-3">
                                         {t("no_results")}
                                     </h3>
-                                    <p className="text-responsive text-zinc-400">
+                                    <p className="text-sm text-gray-400 max-w-md">
                                         {t("empty_desc")}
                                     </p>
                                 </motion.div>
