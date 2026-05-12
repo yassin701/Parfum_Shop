@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import { Link } from "@/routing";
-import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UserNavbar from "./components/UserNavbar";
@@ -18,26 +17,14 @@ export default function HomePage() {
   const tFooter = useTranslations("Footer");
 
   useEffect(() => {
-    // 1. PRO CINEMATIC ZOOM ANIMATION
+    // 1. HERO SUBLINE
     const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-
-    tl.set(".zoom-title", { scale: 3, filter: "blur(20px)", opacity: 0 })
-      .set(".hero-sub", { y: 20, opacity: 0 });
-
-    tl.to(".zoom-title", { 
-      scale: 1, 
-      filter: "blur(0px)", 
-      opacity: 1, 
-      duration: 2.5, 
-      stagger: 0.2,
-      letterSpacing: "0.1em" 
-    })
-    .to(".hero-sub", {
+    tl.set(".hero-sub", { y: 20, opacity: 0 }).to(".hero-sub", {
       y: 0,
       opacity: 1,
       duration: 1.5,
-      stagger: 0.2
-    }, "-=1.5");
+      stagger: 0.2,
+    });
 
     // 2. REVEAL ON SCROLL
     const reveals = document.querySelectorAll(".reveal-up");
@@ -77,18 +64,18 @@ export default function HomePage() {
       <UserNavbar />
 
       <main>
-        {/* SECTION 1: PRO CINEMATIC ZOOM HERO WITH VIDEO */}
+        {/* SECTION 1: HERO WITH VIDEO */}
         <section ref={heroRef} className="h-screen flex flex-col items-center justify-center bg-zinc-50 relative overflow-hidden">
           {/* BACKGROUND VIDEO */}
           <div className="absolute inset-0 z-0">
-            <video 
-              autoPlay 
-              muted 
-              loop 
-              playsInline 
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
               className="w-full h-full object-cover"
             >
-              <source src="/categories/mp_.mp4" type="video/mp4" />
+              <source src="https://res.cloudinary.com/dqronp5bo/video/upload/v1778590015/mp__d4iucu.mp4" type="video/mp4" />
             </video>
             {/* CINEMATIC OVERLAY */}
             <div className="absolute inset-0 bg-zinc-950/40 backdrop-blur-[1px]" />
@@ -97,18 +84,25 @@ export default function HomePage() {
 
           <div className="text-center z-10">
             <div className="mb-4">
-              <h1 className="zoom-title text-xl md:text-2xl font-serif tracking-[0.8em] text-white uppercase drop-shadow-2xl">
+              <h1 className="text-xl md:text-2xl font-serif tracking-[0.8em] text-white uppercase drop-shadow-2xl">
                 ARABI SHOP
               </h1>
             </div>
             <div>
-              <h2 className="zoom-title text-7xl md:text-[14rem] font-serif italic text-white leading-none tracking-tighter drop-shadow-2xl">
+              <h2 className="text-7xl md:text-[14rem] font-serif italic text-white leading-none tracking-tighter drop-shadow-2xl">
                 {t("hero_welcome")}
               </h2>
             </div>
-            <div className="hero-sub mt-12 flex flex-col items-center">
-              <div className="h-24 w-[1px] bg-white/40 mx-auto" />
-              <span className="text-[8px] uppercase tracking-[0.5em] text-white/60 mt-6 block">{t("hero_scroll")}</span>
+            <div className="hero-sub mt-10 md:mt-14 flex flex-col items-center gap-6 max-w-lg mx-auto px-4">
+              <p className="text-sm md:text-base text-white/90 font-light leading-relaxed">
+                {t("hero_intro")}
+              </p>
+              <Link
+                href="/catalog"
+                className="inline-flex items-center justify-center text-[10px] uppercase tracking-[0.35em] text-white border border-white/35 px-8 py-3 rounded-full hover:bg-white hover:text-zinc-900 transition-colors duration-500"
+              >
+                {t("hero_cta")}
+              </Link>
             </div>
           </div>
         </section>
@@ -145,9 +139,9 @@ export default function HomePage() {
         <section className="philosophy-section relative h-[120vh] bg-zinc-950 overflow-hidden flex items-center justify-center px-6">
           {/* PARALLAX BG */}
           <div className="parallax-bg absolute inset-0 opacity-30">
-            <img 
-              src="/categories/men.png" 
-              alt="Philosophy" 
+            <img
+              src="/categories/men.png"
+              alt="Philosophy"
               className="w-full h-full object-cover grayscale"
             />
           </div>
@@ -156,7 +150,7 @@ export default function HomePage() {
           <div className="relative z-10 max-w-4xl text-center">
             <span className="reveal-up text-[10px] uppercase tracking-[1em] text-amber-400 font-bold mb-12 block">{t("philosophy_subtitle")}</span>
             <h2 className="reveal-up text-5xl md:text-8xl font-serif italic text-white leading-tight mb-12">
-              {t("philosophy_title_1")} <br /> 
+              {t("philosophy_title_1")} <br />
               <span className="text-zinc-500 font-light not-italic underline decoration-[1px] underline-offset-[20px]">{t("philosophy_title_2")}</span>
             </h2>
             <p className="reveal-up text-sm md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
@@ -182,7 +176,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="reveal-up order-1 md:order-2 relative aspect-square overflow-hidden rounded-[4rem]">
-                <img src="/categories/men.png" alt="Catalog Entry" className="w-full h-full object-cover transition-transform duration-[3s] hover:scale-110" />
+              <img src="/categories/men.png" alt="Catalog Entry" className="w-full h-full object-cover transition-transform duration-[3s] hover:scale-110" />
             </div>
           </div>
         </section>
@@ -196,9 +190,9 @@ export default function HomePage() {
             <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-400 mt-2 tracking-[0.5em]">{tFooter("locations")}</p>
           </div>
           <div className="flex gap-8 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-400">
-             <span>{tFooter("instagram")}</span>
-             <span>{tFooter("whatsapp")}</span>
-             <span>{tFooter("privacy")}</span>
+            <span>{tFooter("instagram")}</span>
+            <span>{tFooter("whatsapp")}</span>
+            <span>{tFooter("privacy")}</span>
           </div>
         </div>
       </footer>

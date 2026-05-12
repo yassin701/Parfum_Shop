@@ -16,7 +16,8 @@
   },
   "HomePage": {
     "hero_welcome": "Welcome",
-    "hero_scroll": "Scroll to begin the journey",
+    "hero_intro": "Curated perfumes for every mood—full bottles and déconté editions, chosen with care and delivered with the polish of a true maison.",
+    "hero_cta": "Explore catalog",
     "excellence_subtitle": "The Excellence",
     "excellence_title_1": "Why Choose ",
     "excellence_title_2": "Us",

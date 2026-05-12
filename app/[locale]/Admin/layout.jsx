@@ -104,9 +104,13 @@ export default function AdminLayout({ children }) {
       
       {/* MOBILE HEADER */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-20 bg-zinc-950 flex items-center justify-between px-6 z-[100] border-b border-zinc-900">
-        <h1 className="text-sm font-bold text-white tracking-widest uppercase">
+        <Link
+          href="/Admin/AdminCards"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="text-sm font-bold text-white tracking-widest uppercase hover:text-zinc-300 transition-colors"
+        >
           Arabi <span className="text-zinc-500 font-light">Shop</span>
-        </h1>
+        </Link>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="w-10 h-10 flex items-center justify-center text-zinc-400"
@@ -138,9 +142,12 @@ export default function AdminLayout({ children }) {
       `}>
         {/* LOGO AREA */}
         <div className="p-8 hidden lg:block">
-          <h1 className="text-xl font-bold text-white tracking-widest uppercase">
+          <Link
+            href="/Admin/AdminCards"
+            className="block text-xl font-bold text-white tracking-widest uppercase hover:text-zinc-300 transition-colors"
+          >
             Arabi <span className="text-zinc-500 font-light">Shop</span>
-          </h1>
+          </Link>
           <p className="text-[9px] text-zinc-600 mt-2 uppercase tracking-[0.4em] font-bold">Workspace Alpha</p>
         </div>
 

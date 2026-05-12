@@ -1,17 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cards from "@/app/[locale]/components/Cards";
+
+const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD;
+const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD;
 
 export default function AdminProducts() {
     const [products, setProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [pendingImageFile, setPendingImageFile] = useState(null);
+    const [pendingPreviewUrl, setPendingPreviewUrl] = useState(null);
+    const editFileInputRef = useRef(null);
     const [deletingProduct, setDeletingProduct] = useState(null);
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [genderFilter, setGenderFilter] = useState("all");
     const [typeFilter, setTypeFilter] = useState("all");
+
+    const clearPendingImage = () => {
+        setPendingImageFile(null);
+        setPendingPreviewUrl((prev) => {
+            if (prev) URL.revokeObjectURL(prev);
+            return null;
+        });
+        if (editFileInputRef.current) editFileInputRef.current.value = "";
+    };
+
+    const openEdit = (p) => {
+        clearPendingImage();
+        setEditingProduct(p);
+    };
+
+    const uploadToCloudinary = async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+        const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            formData
+        );
+        return res.data.secure_url;
+    };
+
+    const handleEditImageFile = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setPendingPreviewUrl((prev) => {
+            if (prev) URL.revokeObjectURL(prev);
+            return URL.createObjectURL(file);
+        });
+        setPendingImageFile(file);
+    };
 
     useEffect(() => {
         fetchProducts();
@@ -50,12 +91,32 @@ export default function AdminProducts() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        if (!editingProduct) return;
         setLoading(true);
         try {
-            const res = await axios.put(`/api/products/${editingProduct.id}`, editingProduct);
+            let image_url = editingProduct.image_url;
+            if (pendingImageFile) {
+                if (!CLOUD_NAME || !UPLOAD_PRESET) {
+                    alert("Cloudinary env missing.");
+                    setLoading(false);
+                    return;
+                }
+                image_url = await uploadToCloudinary(pendingImageFile);
+            }
+            const category_slug = `${editingProduct.gender}-${editingProduct.product_type}`;
+            const payload = {
+                name: editingProduct.name,
+                price: editingProduct.price,
+                gender: editingProduct.gender,
+                product_type: editingProduct.product_type,
+                category_slug,
+                image_url,
+            };
+            const res = await axios.put(`/api/products/${editingProduct.id}`, payload);
             setProducts(
                 products.map((p) => (p.id === editingProduct.id ? res.data.data[0] : p))
             );
+            clearPendingImage();
             setEditingProduct(null);
         } catch (err) {
             console.error("Update failed:", err);
@@ -163,7 +224,14 @@ export default function AdminProducts() {
                     <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
                         <div className="bg-zinc-950 p-6 text-white flex justify-between items-center">
                             <h2 className="text-xl font-bold">Edit Product</h2>
-                            <button onClick={() => setEditingProduct(null)} className="text-zinc-400 hover:text-white transition-colors">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    clearPendingImage();
+                                    setEditingProduct(null);
+                                }}
+                                className="text-zinc-400 hover:text-white transition-colors"
+                            >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -218,29 +286,59 @@ export default function AdminProducts() {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Image URL</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={editingProduct.image_url || ""}
-                                    onChange={(e) => setEditingProduct({ ...editingProduct, image_url: e.target.value })}
-                                    className="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-zinc-950 focus:border-transparent outline-none transition-all"
-                                />
+                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Image</label>
+                                <div className="rounded-xl border border-gray-200 overflow-hidden bg-gray-50">
+                                    <div className="h-28 relative bg-zinc-100">
+                                        <img
+                                            src={pendingPreviewUrl || editingProduct.image_url || ""}
+                                            alt=""
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <div className="p-2 flex flex-wrap gap-2">
+                                        <input
+                                            ref={editFileInputRef}
+                                            type="file"
+                                            id="edit-product-image"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={handleEditImageFile}
+                                        />
+                                        <label
+                                            htmlFor="edit-product-image"
+                                            className="inline-flex px-3 py-1.5 rounded-lg bg-zinc-950 text-white text-xs font-medium cursor-pointer hover:bg-zinc-800"
+                                        >
+                                            {pendingImageFile ? "Replace" : "Upload"}
+                                        </label>
+                                        {pendingImageFile && (
+                                            <button
+                                                type="button"
+                                                onClick={clearPendingImage}
+                                                className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-700 hover:bg-gray-100"
+                                            >
+                                                Undo
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="pt-4 flex gap-3">
+                            <div className="pt-2 flex gap-3">
                                 <button
                                     type="button"
-                                    onClick={() => setEditingProduct(null)}
-                                    className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors"
+                                    onClick={() => {
+                                        clearPendingImage();
+                                        setEditingProduct(null);
+                                    }}
+                                    className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium"
                                 >
-                                    Discard
+                                    Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="flex-1 px-4 py-3 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl font-medium transition-all shadow-xl shadow-zinc-200 disabled:opacity-50"
+                                    className="flex-1 px-4 py-2.5 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-sm font-medium disabled:opacity-50"
                                 >
-                                    {loading ? "Saving..." : "Save Changes"}
+                                    {loading ? "…" : "Save"}
                                 </button>
                             </div>
                         </form>
