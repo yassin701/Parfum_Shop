@@ -1,7 +1,6 @@
 "use client";
 
 import { useDispatch } from "react-redux";
-import { Link } from "@/routing";
 import { cartActions } from "../../../redux/slices/cartSlice";
 import { uiActions } from "../../../redux/slices/uiSlice";
 import { useTranslations } from "next-intl";
@@ -27,10 +26,6 @@ export default function ProductCard({
         );
         dispatch(uiActions.show());
     };
-
-    const catalogHref = `/catalog/${product.gender || "men"}/${product.product_type || "complet"}`;
-    const titleLinkClass =
-        "text-lg font-semibold leading-tight text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:text-black hover:decoration-zinc-900 transition-colors";
 
     return (
         <div className="group bg-white rounded-2xl border border-zinc-100 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:-translate-y-1">
@@ -62,14 +57,12 @@ export default function ProductCard({
 
             {/* CONTENT */}
             <div className="p-6">
-                <h2 className="leading-tight">
-                    <Link href={catalogHref} className={titleLinkClass}>
-                        {product.name}
-                    </Link>
+                <h2 className="text-lg font-semibold text-zinc-900 leading-tight group-hover:text-black transition-colors">
+                    {product.name}
                 </h2>
 
                 {isAdmin ? (
-                    <div className="grid grid-cols-2 gap-3 mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mt-6">
                         <button
                             onClick={() => onEdit(product)}
                             className="flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-950 text-white text-sm font-medium rounded-xl hover:bg-zinc-800 transition-all active:scale-95"
@@ -92,14 +85,27 @@ export default function ProductCard({
                 ) : (
                     <button
                         onClick={handleAddToCart}
-                        className="w-full mt-6 flex items-center justify-center gap-3 px-6 py-3 bg-zinc-950 text-white text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all hover:bg-zinc-800 hover:shadow-lg active:scale-[0.98]"
+                        className="group/btn w-full mt-5 sm:mt-6 flex items-center justify-center sm:justify-center px-5 sm:px-6 py-3 text-zinc-600 hover:text-zinc-900 transition-all duration-300 active:scale-95 min-h-[48px] bg-transparent"
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        {/* Icon only on mobile - visible on all screens but text hidden on mobile */}
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            className="transition-all duration-300 group-hover/btn:scale-105 sm:mr-2"
+                        >
                             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
                             <path d="M3 6h18" />
                             <path d="M16 10a4 4 0 0 1-8 0" />
                         </svg>
-                        {t("add_to_bag")}
+
+                        {/* Text hidden on mobile, visible on sm and up */}
+                        <span className="hidden sm:inline text-[10px] uppercase tracking-[0.3em] font-semibold">
+                            {t("add_to_bag")}
+                        </span>
                     </button>
                 )}
             </div>

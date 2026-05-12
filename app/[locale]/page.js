@@ -93,10 +93,10 @@ export default function HomePage() {
                 {t("hero_welcome")}
               </h2>
             </div>
-            <div className="hero-sub mt-10 md:mt-14 flex flex-col items-center gap-6 max-w-lg mx-auto px-4">
-              <p className="text-sm md:text-base text-white/90 font-light leading-relaxed">
-                {t("hero_intro")}
-              </p>
+           <div className="hero-sub mt-10 md:mt-14 flex flex-col items-center gap-6 max-w-lg mx-auto px-4">
+  <p className="text-sm md:text-base text-white/90 font-light italic leading-loose">
+    {t("hero_intro")}
+  </p>
               <Link
                 href="/catalog"
                 className="inline-flex items-center justify-center text-[10px] uppercase tracking-[0.35em] text-white border border-white/35 px-8 py-3 rounded-full hover:bg-white hover:text-zinc-900 transition-colors duration-500"
