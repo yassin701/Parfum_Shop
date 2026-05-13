@@ -9,6 +9,7 @@ import UserNavbar from "@/app/[locale]/components/UserNavbar";
 import { useTranslations } from "next-intl";
 
 import { cartActions } from "@/redux/slices/cartSlice";
+import { sendAdminOrderNotification } from "@/lib/email";
 
 export default function CheckoutPage() {
     const cart = useSelector((state) => state.cart);
@@ -35,13 +36,26 @@ export default function CheckoutPage() {
         setIsSubmitting(true);
 
         try {
-            const response = await axios.post("/api/orders", {
+            const orderPayload = {
                 ...formData,
                 items: cart.items,
                 totalAmount: cart.totalAmount
-            });
+            };
+
+            const response = await axios.post("/api/orders", orderPayload);
 
             if (response.data) {
+                // Send Email Notification to Admin
+                try {
+                    await sendAdminOrderNotification({
+                        ...orderPayload,
+                        id: response.data.data?.id // Pass the real ID from DB if available
+                    });
+                } catch (emailErr) {
+                    console.error("Notification failed, but order was placed:", emailErr);
+                    // We don't block the user if the email fails
+                }
+
                 // Clear cart upon success
                 dispatch(cartActions.clearCart());
                 setIsSuccess(true);
