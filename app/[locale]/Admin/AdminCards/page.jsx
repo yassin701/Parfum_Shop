@@ -63,7 +63,7 @@ export default function AdminProducts() {
             const res = await axios.get("/api/products/GetProducts");
             setProducts(res.data);
         } catch (err) {
-            console.error("Error fetching products:", err);
+
         }
     };
 
@@ -82,7 +82,7 @@ export default function AdminProducts() {
             setProducts(products.filter((p) => p.id !== deletingProduct.id));
             setDeletingProduct(null);
         } catch (err) {
-            console.error("Delete failed:", err);
+
             alert("Failed to delete product.");
         } finally {
             setLoading(false);
@@ -119,7 +119,7 @@ export default function AdminProducts() {
             clearPendingImage();
             setEditingProduct(null);
         } catch (err) {
-            console.error("Update failed:", err);
+
             alert("Failed to update product.");
         } finally {
             setLoading(false);

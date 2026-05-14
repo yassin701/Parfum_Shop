@@ -17,7 +17,7 @@ export default function CartPersistor() {
         const parsedCart = JSON.parse(savedCart);
         dispatch(cartActions.replaceCart(parsedCart));
       } catch (e) {
-        console.error("Failed to parse cart from storage", e);
+
       }
     }
   }, [dispatch]);

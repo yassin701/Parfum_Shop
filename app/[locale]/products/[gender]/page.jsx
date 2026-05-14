@@ -26,7 +26,7 @@ export default function GenderProductPage({ params: paramsPromise }) {
       const res = await axios.get(`/api/products/GetProducts?gender=${gender}&sort=${sortBy}`);
       setProducts(res.data);
     } catch (err) {
-      console.error(err);
+
     } finally {
       setLoading(false);
     }

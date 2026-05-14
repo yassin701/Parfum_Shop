@@ -52,7 +52,7 @@ export default function CheckoutPage() {
                         id: response.data.data?.id // Pass the real ID from DB if available
                     });
                 } catch (emailErr) {
-                    console.error("Notification failed, but order was placed:", emailErr);
+
                     // We don't block the user if the email fails
                 }
 
@@ -61,7 +61,7 @@ export default function CheckoutPage() {
                 setIsSuccess(true);
             }
         } catch (err) {
-            console.error("Failed to place order:", err);
+
             alert("Could not place order. Please try again.");
         } finally {
             setIsSubmitting(false);
