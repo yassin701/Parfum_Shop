@@ -65,7 +65,7 @@ export default function AddProduct() {
             setPreview(null);
             alert("Product added successfully!");
         } catch (err) {
-            console.error(err);
+
             alert("Error adding product.");
         } finally {
             setLoading(false);

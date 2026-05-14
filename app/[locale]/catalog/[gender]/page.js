@@ -26,7 +26,7 @@ export default function GenderSelectionPage({ params }) {
                     deconte: deconteRes.data[0]?.image_url
                 });
             } catch (err) {
-                console.error("Error fetching category previews:", err);
+
             }
         };
         fetchPreviews();
@@ -85,28 +85,28 @@ export default function GenderSelectionPage({ params }) {
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/95 via-zinc-950/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/30 to-transparent transition-opacity duration-500 group-hover:opacity-95" />
 
-                            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 text-white">
+                            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 text-zinc-900">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.5 + idx * 0.2 }}
                                 >
-                                    <span className="text-[10px] uppercase tracking-[0.5em] font-black text-amber-400/80 mb-4 block">
+                                    <span className="text-[10px] uppercase tracking-[0.5em] font-black text-amber-600 mb-4 block">
                                         {type.subtitle}
                                     </span>
-                                    <h2 className="text-2xl md:text-4xl font-bold mb-4 tracking-tight">
+                                    <h2 className="text-2xl md:text-4xl font-bold mb-4 tracking-tight text-zinc-900">
                                         {type.title}
                                     </h2>
-                                    <p className="max-w-xs text-xs md:text-sm text-zinc-400 font-medium leading-relaxed mb-8 transform transition-all duration-500 md:translate-y-4 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                                    <p className="max-w-xs text-xs md:text-sm text-zinc-600 font-medium leading-relaxed mb-8 transform transition-all duration-500 md:translate-y-4 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
                                         {type.description}
                                     </p>
                                     <div className="flex items-center gap-6">
-                                        <span className="inline-block px-10 md:px-12 py-3 md:py-4 bg-white text-zinc-950 text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-black rounded-full transition-all duration-500 group-hover:bg-amber-400 group-hover:text-zinc-950">
+                                        <span className="inline-block px-10 md:px-12 py-3 md:py-4 bg-zinc-900 text-white text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-black rounded-full transition-all duration-500 group-hover:bg-amber-500 group-hover:text-white">
                                             {t("select")}
                                         </span>
-                                        <div className="hidden md:block h-[1px] w-0 bg-amber-400 transition-all duration-500 group-hover:w-20" />
+                                        <div className="hidden md:block h-[1px] w-0 bg-zinc-900 transition-all duration-500 group-hover:w-20" />
                                     </div>
                                 </motion.div>
                             </div>

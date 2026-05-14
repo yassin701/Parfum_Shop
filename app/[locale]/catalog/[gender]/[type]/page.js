@@ -21,7 +21,7 @@ export default function ProductListPage({ params }) {
                 const res = await axios.get(`/api/products/GetProducts?gender=${gender}&type=${type}`);
                 setProducts(res.data);
             } catch (err) {
-                console.error("Error fetching products:", err);
+
             } finally {
                 setLoading(false);
             }

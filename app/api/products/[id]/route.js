@@ -11,13 +11,13 @@ export async function DELETE(req, { params }) {
       .eq("id", id);
 
     if (error) {
-      console.error("Supabase delete error:", error);
+
       return Response.json({ error: error.message }, { status: 500 });
     }
 
     return Response.json({ message: "Product deleted successfully" });
   } catch (err) {
-    console.error("API Delete error:", err);
+
     return Response.json({ error: err.message }, { status: 500 });
   }
 }
@@ -51,7 +51,7 @@ export async function PUT(req, { params }) {
       .select();
 
     if (error) {
-      console.error("Supabase update error:", error);
+
       return Response.json({ error: error.message }, { status: 500 });
     }
 
@@ -60,7 +60,7 @@ export async function PUT(req, { params }) {
       data,
     });
   } catch (err) {
-    console.error("API Update error:", err);
+
     return Response.json({ error: err.message }, { status: 500 });
   }
 }

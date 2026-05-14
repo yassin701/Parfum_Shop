@@ -28,7 +28,7 @@ export async function POST(req) {
             .select();
 
         if (error) {
-            console.error("Supabase error:", error);
+
             return Response.json(
                 { error: error.message },
                 { status: 500 }
@@ -40,7 +40,7 @@ export async function POST(req) {
             data,
         });
     } catch (err) {
-        console.error("API Route error:", err);
+
         return Response.json(
             { error: err.message },
             { status: 500 }

@@ -32,7 +32,7 @@ export async function POST(req) {
             .select();
 
         if (error) {
-            console.error("DETAILED SUPABASE ERROR:", error);
+
             return Response.json({
                 error: error.message,
                 details: error.details,
